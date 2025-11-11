@@ -1,0 +1,34 @@
+
+---
+title: "Reports"
+page-layout: article
+---
+
+# Reports
+
+Unten ist das Test-Notebook als gerenderte Seite eingebunden. Alternativ kann das Notebook direkt als `.qmd` geführt werden.
+
+::: {.callout-note}
+**Hinweis:** Für GitHub Pages wird das Notebook in HTML gerendert und hier verlinkt.
+:::
+
+- [Test-Analyse-Notebook](notebooks/test_analysis.html)
+
+## Direkt eingebettete Analyse (Quarto-Chunk)
+
+```{python}
+import pandas as pd, numpy as np
+import matplotlib.pyplot as plt
+
+rng = np.random.default_rng(123)
+x = np.linspace(0, 10, 100)
+y = np.sin(x) + rng.normal(0, 0.1, size=len(x))
+
+import matplotlib.pyplot as plt
+plt.figure()
+plt.plot(x, y)
+plt.title("Demo-Sinus mit Rauschen")
+plt.xlabel("x")
+plt.ylabel("y")
+plt.tight_layout()
+```

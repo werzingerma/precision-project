@@ -1,0 +1,12 @@
+{
+  "hash": "ddfa7d0bd226a97dda71eb5cf2cb6881",
+  "result": {
+    "engine": "jupyter",
+    "markdown": "---\ntitle: \"Reports\"\npage-layout: article\n---\n\n# Reports\n\nUnten ist das Test-Notebook als gerenderte Seite eingebunden. Alternativ kann das Notebook direkt als `.qmd` geführt werden.\n\n::: {.callout-note}\n**Hinweis:** Für GitHub Pages wird das Notebook in HTML gerendert und hier verlinkt.\n:::\n\n- [Test-Analyse-Notebook](notebooks/test_analysis.html)\n\n## Direkt eingebettete Analyse (Quarto-Chunk)\n\n::: {#2cad3191 .cell execution_count=1}\n``` {.python .cell-code}\nimport pandas as pd, numpy as np\nimport matplotlib.pyplot as plt\n\nrng = np.random.default_rng(123)\nx = np.linspace(0, 10, 100)\ny = np.sin(x) + rng.normal(0, 0.1, size=len(x))\n\nimport matplotlib.pyplot as plt\nplt.figure()\nplt.plot(x, y)\nplt.title(\"Demo-Sinus mit Rauschen\")\nplt.xlabel(\"x\")\nplt.ylabel(\"y\")\nplt.tight_layout()\n```\n\n::: {.cell-output .cell-output-display}\n![](reports_files/figure-html/cell-2-output-1.png){width=662 height=470}\n:::\n:::\n\n\n",
+    "supporting": [
+      "reports_files"
+    ],
+    "filters": [],
+    "includes": {}
+  }
+}

@@ -1,0 +1,48 @@
+
+name: Quarto Publish
+
+on:
+  push:
+    branches: [ main ]
+  workflow_dispatch:
+
+jobs:
+  build-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Quarto
+        uses: quarto-dev/quarto-actions/setup@v2
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install Python deps (falls benötigt)
+        run: |
+          python -m pip install --upgrade pip
+          pip install matplotlib pandas numpy jupyter nbconvert
+
+      - name: Render Notebooks to HTML
+        run: |
+          jupyter nbconvert --to html --output-dir notebooks notebooks/test_analysis.ipynb
+
+      - name: Render Quarto Site
+        uses: quarto-dev/quarto-actions/render@v2
+        with:
+          to: html
+
+      - name: Publish to GitHub Pages
+        uses: actions/configure-pages@v5
+
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: _site
+
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4

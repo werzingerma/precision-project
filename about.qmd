@@ -1,0 +1,10 @@
+
+---
+title: "About"
+page-layout: article
+---
+
+# About
+
+Diese Seite demonstriert einen **Open-Source-Workflow mit Quarto**: Analysen entstehen in Jupyter,
+werden als reproduzierbare Reports publiziert und über **GitHub Pages** bereitgestellt.

@@ -1,0 +1,72 @@
+[
+  {
+    "objectID": "notebooks/test_analysis.html",
+    "href": "notebooks/test_analysis.html",
+    "title": "Test-Analyse-Notebook",
+    "section": "",
+    "text": "Dieses Notebook zeigt einfache Auswertungen und Plots für den Quarto-Workflow.\nCode\n\nimport pandas as pd\nimport numpy as np\nimport matplotlib.pyplot as plt\n\nrng = np.random.default_rng(42)\ndates = pd.date_range(\"2025-01-01\", periods=30, freq=\"D\")\nvalues = np.cumsum(rng.normal(loc=0.0, scale=1.0, size=len(dates))) + 10\n\ndf = pd.DataFrame({\"date\": dates, \"value\": values})\ndf[\"category\"] = rng.choice([\"A\", \"B\", \"C\"], size=len(df), replace=True)\ndf[\"metric\"] = rng.normal(50, 10, size=len(df)).round(2)\n\ndf.head()\n\n\n\n\n\n\n\n\n\ndate\nvalue\ncategory\nmetric\n\n\n\n\n0\n2025-01-01\n10.304717\nC\n52.32\n\n\n1\n2025-01-02\n9.264733\nC\n51.17\n\n\n2\n2025-01-03\n10.015184\nB\n52.19\n\n\n3\n2025-01-04\n10.955749\nC\n58.71\n\n\n4\n2025-01-05\n9.004714\nB\n52.24"
+  },
+  {
+    "objectID": "notebooks/test_analysis.html#liniendiagramm-über-die-zeit",
+    "href": "notebooks/test_analysis.html#liniendiagramm-über-die-zeit",
+    "title": "Test-Analyse-Notebook",
+    "section": "1 Liniendiagramm über die Zeit",
+    "text": "1 Liniendiagramm über die Zeit\n\n\nCode\n\nimport matplotlib.pyplot as plt\n\nplt.figure()\nplt.plot(df[\"date\"], df[\"value\"])\nplt.title(\"Zeitreihe (value)\")\nplt.xlabel(\"Datum\")\nplt.ylabel(\"Value\")\nplt.xticks(rotation=45)\nplt.tight_layout()"
+  },
+  {
+    "objectID": "notebooks/test_analysis.html#balkendiagramm-mittelwerte-je-kategorie",
+    "href": "notebooks/test_analysis.html#balkendiagramm-mittelwerte-je-kategorie",
+    "title": "Test-Analyse-Notebook",
+    "section": "2 Balkendiagramm (Mittelwerte je Kategorie)",
+    "text": "2 Balkendiagramm (Mittelwerte je Kategorie)\n\n\nCode\n\nmeans = df.groupby(\"category\")[\"metric\"].mean().sort_values()\nplt.figure()\nmeans.plot(kind=\"bar\")\nplt.title(\"Durchschnittlicher Metric-Wert je Kategorie\")\nplt.xlabel(\"Kategorie\")\nplt.ylabel(\"Metric (Ø)\")\nplt.tight_layout()"
+  },
+  {
+    "objectID": "notebooks/test_analysis.html#histogramm-der-metrik",
+    "href": "notebooks/test_analysis.html#histogramm-der-metrik",
+    "title": "Test-Analyse-Notebook",
+    "section": "3 Histogramm der Metrik",
+    "text": "3 Histogramm der Metrik\n\n\nCode\n\nplt.figure()\nplt.hist(df[\"metric\"], bins=10)\nplt.title(\"Verteilung von Metric\")\nplt.xlabel(\"Metric\")\nplt.ylabel(\"Häufigkeit\")\nplt.tight_layout()"
+  },
+  {
+    "objectID": "notebooks/test_analysis.html#snapshot-funktion",
+    "href": "notebooks/test_analysis.html#snapshot-funktion",
+    "title": "Test-Analyse-Notebook",
+    "section": "4 Snapshot-Funktion",
+    "text": "4 Snapshot-Funktion\nMit der folgenden Funktion können Sie manuell eine versionierte Kopie des Notebooks in notebooks/versions/ speichern. Führen Sie die Zelle aus, nachdem Sie das Notebook gespeichert haben.\n\n\nCode\n\nimport os, shutil, datetime, json\n\ndef save_snapshot(src_path=\"notebooks/test_analysis.ipynb\", outdir=\"notebooks/versions\", message=\"Snapshot aus Notebook\"):\n    os.makedirs(outdir, exist_ok=True)\n    if not os.path.exists(src_path):\n        print(\"Quelle nicht gefunden:\", src_path)\n        return\n    ts = datetime.datetime.now().strftime(\"%Y%m%d-%H%M%S\")\n    base = os.path.splitext(os.path.basename(src_path))[0]\n    dst = os.path.join(outdir, f\"{base}_{ts}.ipynb\")\n    shutil.copyfile(src_path, dst)\n    meta = {\"timestamp\": ts, \"message\": message}\n    with open(dst + \".meta.json\", \"w\", encoding=\"utf-8\") as f:\n        json.dump(meta, f, ensure_ascii=False, indent=2)\n    print(\"Snapshot gespeichert:\", dst)\n\nprint(\"Aufruf: save_snapshot()\")\n\n\nAufruf: save_snapshot()"
+  },
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "Start",
+    "section": "",
+    "text": "Diese Demo zeigt, wie Analysen aus Notebooks direkt als Website veröffentlicht werden können. Ziel ist ein reproduzierbarer, automatisierter Workflow mit schöner Darstellung.\n\nAutomatische Reports via GitHub Actions & GitHub Pages\nVersionierung von Notebook-Ständen (Snapshots)\nEinheitliches Styling mit Projekt-Branding\n\n\nHinweis: Diese Demo verwendet synthetische Daten.\n\n\n\n\nLetzte Aktualisierung: r format(Sys.time(), '%Y-%m-%d %H:%M:%S')\nSiehe Reports für eingebundene Analysen."
+  },
+  {
+    "objectID": "index.html#aktuelle-highlights",
+    "href": "index.html#aktuelle-highlights",
+    "title": "Start",
+    "section": "",
+    "text": "Letzte Aktualisierung: r format(Sys.time(), '%Y-%m-%d %H:%M:%S')\nSiehe Reports für eingebundene Analysen."
+  },
+  {
+    "objectID": "reports.html",
+    "href": "reports.html",
+    "title": "Reports",
+    "section": "",
+    "text": "Unten ist das Test-Notebook als gerenderte Seite eingebunden. Alternativ kann das Notebook direkt als .qmd geführt werden.\n\n\n\n\n\n\nNote\n\n\n\nHinweis: Für GitHub Pages wird das Notebook in HTML gerendert und hier verlinkt.\n\n\n\nTest-Analyse-Notebook\n\n\n\n\n\nCode\nimport pandas as pd, numpy as np\nimport matplotlib.pyplot as plt\n\nrng = np.random.default_rng(123)\nx = np.linspace(0, 10, 100)\ny = np.sin(x) + rng.normal(0, 0.1, size=len(x))\n\nimport matplotlib.pyplot as plt\nplt.figure()\nplt.plot(x, y)\nplt.title(\"Demo-Sinus mit Rauschen\")\nplt.xlabel(\"x\")\nplt.ylabel(\"y\")\nplt.tight_layout()"
+  },
+  {
+    "objectID": "reports.html#direkt-eingebettete-analyse-quarto-chunk",
+    "href": "reports.html#direkt-eingebettete-analyse-quarto-chunk",
+    "title": "Reports",
+    "section": "",
+    "text": "Code\nimport pandas as pd, numpy as np\nimport matplotlib.pyplot as plt\n\nrng = np.random.default_rng(123)\nx = np.linspace(0, 10, 100)\ny = np.sin(x) + rng.normal(0, 0.1, size=len(x))\n\nimport matplotlib.pyplot as plt\nplt.figure()\nplt.plot(x, y)\nplt.title(\"Demo-Sinus mit Rauschen\")\nplt.xlabel(\"x\")\nplt.ylabel(\"y\")\nplt.tight_layout()"
+  },
+  {
+    "objectID": "about.html",
+    "href": "about.html",
+    "title": "About",
+    "section": "",
+    "text": "1 About\nDiese Seite demonstriert einen Open-Source-Workflow mit Quarto: Analysen entstehen in Jupyter, werden als reproduzierbare Reports publiziert und über GitHub Pages bereitgestellt."
+  }
+]

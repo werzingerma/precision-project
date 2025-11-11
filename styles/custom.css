@@ -1,0 +1,30 @@
+
+:root {
+  --brand: #235789;
+  --brand-accent: #f1c40f;
+}
+
+.navbar {
+  border-bottom: 2px solid var(--brand);
+}
+
+h1, h2, h3 {
+  letter-spacing: 0.3px;
+}
+
+.callout-note {
+  border-left: 4px solid var(--brand);
+}
+
+a {
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+.sidebar nav[role="doc-toc"] {
+  border-right: 1px solid #e5e7eb;
+  padding-right: 1rem;
+}

@@ -1,0 +1,21 @@
+
+---
+title: "Start"
+page-layout: article
+---
+
+# PRECISION – Offener Quarto-Workflow (Demo)
+
+Diese Demo zeigt, wie Analysen aus Notebooks direkt als Website veröffentlicht werden
+können. Ziel ist ein reproduzierbarer, automatisierter Workflow mit schöner Darstellung.
+
+- **Automatische Reports** via GitHub Actions & GitHub Pages
+- **Versionierung** von Notebook-Ständen (Snapshots)
+- **Einheitliches Styling** mit Projekt-Branding
+
+> Hinweis: Diese Demo verwendet synthetische Daten.
+
+## Aktuelle Highlights
+
+- Letzte Aktualisierung: `r format(Sys.time(), '%Y-%m-%d %H:%M:%S')`
+- Siehe **Reports** für eingebundene Analysen.
