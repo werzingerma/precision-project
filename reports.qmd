@@ -1,34 +1,47 @@
-
 ---
 title: "Reports"
 page-layout: article
+jupyter: python3
 ---
 
 # Reports
 
-Unten ist das Test-Notebook als gerenderte Seite eingebunden. Alternativ kann das Notebook direkt als `.qmd` geführt werden.
-
-::: {.callout-note}
-**Hinweis:** Für GitHub Pages wird das Notebook in HTML gerendert und hier verlinkt.
-:::
+Unten findest du das gerenderte Test-Notebook und darunter die automatisch erzeugte Snapshot-Tabelle.
 
 - [Test-Analyse-Notebook](notebooks/test_analysis.html)
 
-## Direkt eingebettete Analyse (Quarto-Chunk)
+---
+
+## Versionierte Notebook-Stände
 
 ```{python}
-import pandas as pd, numpy as np
-import matplotlib.pyplot as plt
+import os, json
+from IPython.display import Markdown, display
 
-rng = np.random.default_rng(123)
-x = np.linspace(0, 10, 100)
-y = np.sin(x) + rng.normal(0, 0.1, size=len(x))
+versions_dir = "notebooks/versions"
+rows = []
 
-import matplotlib.pyplot as plt
-plt.figure()
-plt.plot(x, y)
-plt.title("Demo-Sinus mit Rauschen")
-plt.xlabel("x")
-plt.ylabel("y")
-plt.tight_layout()
+if os.path.isdir(versions_dir):
+    for name in sorted(os.listdir(versions_dir)):
+        if name.endswith(".ipynb") and "_checkpoint" not in name:
+            meta_file = os.path.join(versions_dir, name + ".meta.json")
+            msg = ""
+            if os.path.exists(meta_file):
+                try:
+                    with open(meta_file, "r", encoding="utf-8") as f:
+                        msg = json.load(f).get("message", "")
+                except Exception:
+                    pass
+            # Falls es eine bereits gerenderte HTML-Version gibt, lieber die verlinken
+            html_name = name.replace(".ipynb", ".html")
+            link_target = f"{versions_dir}/{html_name}" if os.path.exists(os.path.join(versions_dir, html_name)) else f"{versions_dir}/{name}"
+            rows.append((name, msg, link_target))
+
+if rows:
+    md = ["| Snapshot | Kommentar |", "|---|---|"]
+    for name, msg, href in rows:
+        md.append(f"| [{name}]({href}) | {msg} |")
+    display(Markdown("\n".join(md)))
+else:
+    display(Markdown("_Noch keine Snapshots gespeichert._"))
 ```

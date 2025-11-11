@@ -5,13 +5,13 @@ on:
     branches: [ main ]
   workflow_dispatch:
 
-# >>> WICHTIG: OIDC + Pages-Rechte einschalten
+# OIDC + Pages-Rechte
 permissions:
   contents: read
   pages: write
   id-token: write
 
-# Optional, aber empfohlen, damit Deploys sich nicht in die Quere kommen
+# Nicht mehrere Deploys parallel
 concurrency:
   group: "pages"
   cancel-in-progress: true
@@ -40,9 +40,16 @@ jobs:
           python -m pip install --upgrade pip
           pip install matplotlib pandas numpy jupyter nbconvert jupyter-cache
 
-      - name: Render Notebooks to HTML
+      # ✅ NEU: alle Snapshot-Notebooks in HTML konvertieren
+      - name: Render Snapshot-Notebooks (versions) to HTML
+        shell: bash
         run: |
-          jupyter nbconvert --to html --output-dir notebooks notebooks/test_analysis.ipynb
+          set -e
+          if compgen -G "notebooks/versions/*.ipynb" > /dev/null; then
+            python -m jupyter nbconvert --to html --output-dir notebooks/versions notebooks/versions/*.ipynb
+          else
+            echo "Keine Snapshot-Notebooks gefunden."
+          fi
 
       - name: Render Quarto Site
         uses: quarto-dev/quarto-actions/render@v2
@@ -55,9 +62,4 @@ jobs:
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: _site
-
-      - name: Deploy to GitHub Pages
-        id: deployment
-        uses: actions/deploy-pages@v4
-        # Hinweis: GITHUB_TOKEN wird automatisch übergeben; kein 'with: token:' nötig
+          path: _sit_

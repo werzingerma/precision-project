@@ -1,7 +1,8 @@
-
 project:
   type: website
   output-dir: _site
+  resources:
+    - notebooks/versions/**   # erlaubt Snapshot-Dateien auf die Website mitzunehmen
 
 website:
   title: "PRECISION Reports (Demo)"
@@ -28,6 +29,7 @@ format:
     number-sections: true
     css: styles/custom.css
 
+# Wichtig, damit Notebooks reproduzierbar bleiben
 execute:
-  freeze: auto
-  cache: true
+  freeze: auto        # Inhalte werden nur erneuert, wenn Code sich ändert
+  cache: true         # = jupyter-cache verwendet (du hast es ja installiert)
