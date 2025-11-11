@@ -5,13 +5,11 @@ on:
     branches: [ main ]
   workflow_dispatch:
 
-# OIDC + Pages-Rechte
 permissions:
   contents: read
   pages: write
   id-token: write
 
-# Nicht mehrere Deploys parallel
 concurrency:
   group: "pages"
   cancel-in-progress: true
@@ -40,7 +38,7 @@ jobs:
           python -m pip install --upgrade pip
           pip install matplotlib pandas numpy jupyter nbconvert jupyter-cache
 
-      # ✅ NEU: alle Snapshot-Notebooks in HTML konvertieren
+      # Snapshots in HTML rendern
       - name: Render Snapshot-Notebooks (versions) to HTML
         shell: bash
         run: |
@@ -59,7 +57,14 @@ jobs:
       - name: Configure Pages
         uses: actions/configure-pages@v5
 
+      # ✅ HIER war der Tippfehler – path muss _site heißen
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: _sit_
+          path: _site
+          name: github-pages
+          retention-days: 1
+
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
